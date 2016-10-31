@@ -17,10 +17,7 @@ wikipedia==1.4.0
 pyicloud==0.9.1
 
 # Horoscope
-<<<<<<< HEAD
-=======
 lxml==3.6.4
->>>>>>> e5633e7c30d4ebc32344b969cc9884b82b15f8dc
 Horoscope==1.0.3
 
 # Imgur Handler

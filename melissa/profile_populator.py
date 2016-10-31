@@ -47,25 +47,23 @@ def profile_populator():
     if empty(name):
         name = 'Tanay'
 
-<<<<<<< HEAD
-    sun_signs = {1: 'Aquarius', 2: 'Pisces', 3: 'Aries', 4: 'Taurus', 5: 'Gemini', 6: 'Cancer', 7: 'Leo', 8: 'Virgo', 9: 'Libra', 10: 'Scorpio', 11: 'Sagittarius', 12: 'Capricorn'}
-
-=======
-    sun_signs = {1:'Aquarius', 2:'Pisces', 3:'Aries',
-                  4:'Taurus', 5:'Gemini', 6:'Cancer',
-                  7:'Leo', 8:'Virgo', 9:'Libra',
-                  10:'Scorpio', 11:'Sagittarius', 12:'Capricorn'}
-    
->>>>>>> e5633e7c30d4ebc32344b969cc9884b82b15f8dc
+    sun_signs = {1: 'Aquarius',
+                 2: 'Pisces',
+                 3: 'Aries',
+                 4: 'Taurus',
+                 5: 'Gemini',
+                 6: 'Cancer',
+                 7: 'Leo',
+                 8: 'Virgo',
+                 9: 'Libra',
+                 10: 'Scorpio',
+                 11: 'Sagittarius',
+                 12: 'Capricorn'}
     print 'What is your sun sign?'
     for sign in sun_signs.keys():
         print str(sign) + '. ' + sun_signs[sign]
     sun_sign = raw_input('Enter the serial number of the sign: ')
-<<<<<<< HEAD
     while (not sun_sign.isdigit() or not 1 <= int(sun_sign) <= 12):
-=======
-    while (not sun_sign.isdigit() or not 1<=int(sun_sign)<=12):
->>>>>>> e5633e7c30d4ebc32344b969cc9884b82b15f8dc
         sun_sign = raw_input('You did not enter a number between 1\
                  and 12,press <Enter> without an entry to select the\
                 default of Aquarius')
@@ -73,10 +71,6 @@ def profile_populator():
             sun_sign = '1'
             break
     sun_sign = sun_signs[int(sun_sign)]
-<<<<<<< HEAD
-=======
-        
->>>>>>> e5633e7c30d4ebc32344b969cc9884b82b15f8dc
 
     while(True):
         stt = raw_input(
@@ -246,4 +240,3 @@ the city of your choice: ')
 
     with open('profile.json', 'w') as outfile:
         json.dump(profile_data, outfile, indent=4)
-
