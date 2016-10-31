@@ -136,7 +136,6 @@ class WithProfileTest(unittest.TestCase):
             sql_cmds = f.read().splitlines()
 
         # testing
-        assert len(mock_sq.mock_calls) == 239
         # connect
         assert mock_sq.connect.call_count == 1
         mock_sq.connect.assert_called_once_with(
@@ -147,16 +146,28 @@ class WithProfileTest(unittest.TestCase):
         (mock_sq.connect.return_value.cursor.return_value
                 .executescript.assert_called_once_with(self.exec_script_arg))
         # connect().commit
-        assert mock_sq.connect.return_value.commit.call_count == 18
         mock_sq.connect.return_value.commit.assert_called_with()
+        # test sql commands.
+        call_result = (
+            mock_sq.connect.return_value.cursor.return_value
+            .execute.mock_calls)
+        call_result_args = [x[1][0] for x in call_result]
+        non_exist_expected_call = [
+            x for x in sql_cmds if x not in call_result_args]
+        not_expected_call = [
+            x for x in call_result_args if x not in sql_cmds]
         # connect().cursor().execute
-        assert len(
-            mock_sq.connect.return_value.cursor.return_value.execute
-            .mock_calls) == 218
+        err_msg = (
+            'Expected calls which are not exist on actual call:\n{}\n'
+            'Actual calls which are not expected:\n{}'
+        )
+        err_msg = err_msg.format(
+            '\n'.join(non_exist_expected_call),
+            '\n'.join(not_expected_call),
+        )
+        assert len(call_result_args) == len(sql_cmds), err_msg
         for cmd in sql_cmds:
-            assert mock.call(cmd) in (
-                mock_sq.connect.return_value.cursor.return_value
-                .execute.mock_calls)
+            assert mock.call(cmd) in call_result, err_msg
 
     def test_insert_words_mock_input_and_name_input(self):
         """test run insert_words with mock input."""
