@@ -5,10 +5,8 @@ import subprocess
 from melissa.profile_loader import load_profile
 from melissa.utilities import snowboydecoder
 
-data = load_profile(True)
 
 interrupted = False
-subprocess.call(['python', 'start.py'])
 
 
 def signal_handler(signal, frame):
@@ -24,15 +22,25 @@ def interrupt_callback():
 def melissa_activate():
     subprocess.call(['python', 'start.py'])
 
-model = 'data/snowboy_resources/Melissa.pmdl'
 
-signal.signal(signal.SIGINT, signal_handler)
+def main():
+    """main func."""
+    data = load_profile(True)
+    global interrupted
+    subprocess.call(['python', 'start.py'])
+    model = 'data/snowboy_resources/Melissa.pmdl'
 
-detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
+    signal.signal(signal.SIGINT, signal_handler)
 
-if data['hotword_detection'] == 'on':
-    detector.start(detected_callback=melissa_activate,
-                   interrupt_check=interrupt_callback,
-                   sleep_time=0.03)
+    detector = snowboydecoder.HotwordDetector(model, sensitivity=0.5)
 
-    detector.terminate()
+    if data['hotword_detection'] == 'on':
+        detector.start(
+            detected_callback=melissa_activate,
+            interrupt_check=interrupt_callback,
+            sleep_time=0.03)
+
+        detector.terminate()
+
+if __name__ == "__main__":
+    main()
